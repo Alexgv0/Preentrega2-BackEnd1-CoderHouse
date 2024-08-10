@@ -1,11 +1,8 @@
 const express = require("express");
-const productManager = require("../../productManager");
+const ProductManager = require("../../productManager");
 const router = express.Router();
 
-// Middleware para analizar JSON
-router.use(express.json());
-// Middleware para analizar datos de formularios
-router.use(express.urlencoded({ extended: true }));
+const productManager = new ProductManager();
 
 // Lista de todos los productos
 router.get("/", async (req, res) => {
@@ -72,7 +69,7 @@ router.put("/:pid", async (req, res) => {
         const [product] = await productManager.searchProductByID(pid);
         const changes = productManager.filterValidFields({ id: pid, ...req.body }, product);
         const newProducts = await productManager.updateProduct(changes);
-        console.log(typeof newProducts, newProducts);
+        // console.log(typeof newProducts, newProducts);
         await productManager.saveProducts(newProducts);
         res.status(200).json({ message: "Producto actualizado exitosamente.", changes: changes });
     } catch (error) {

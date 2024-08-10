@@ -1,12 +1,8 @@
 const express = require("express");
-const cartManager = require("../../cartManager");
-const { saveProducts } = require("../../productManager");
+const CartManager = require("../../cartManager");
 const router = express.Router();
 
-// Middleware para analizar JSON
-router.use(express.json());
-// Middleware para analizar datos de formularios
-router.use(express.urlencoded({ extended: true }));
+const cartManager = new CartManager();
 
 // Lista los productos que pertenezcan al carrito con el parámetro cid proporcionados
 router.get("/:cid", async (req, res) => {
@@ -32,10 +28,10 @@ router.post("/", async (req, res) => {
         const cart = await cartManager.createCart(req.body[0]);
         const carts = await cartManager.addCart(cart);
         await cartManager.saveCarts(carts);
-        res.status(201).json({message : "carrito agregado correctamente", cart : cart})
+        res.status(201).json({ message: "carrito agregado correctamente", cart: cart });
     } catch (error) {
         console.error("Error al agregar carrito: ", error);
-        res.status(500).json({message : "Error al agregar carrito a los carritos"});
+        res.status(500).json({ message: "Error al agregar carrito a los carritos" });
     }
 });
 
@@ -48,17 +44,17 @@ router.post("/", async (req, res) => {
 */
 router.post("/:cid/product/:pid", async (req, res) => {
     try {
-        const {cid, pid} = req.params;
+        const { cid, pid } = req.params;
         const carts = await cartManager.addProductCarts(parseInt(cid), parseInt(pid));
         if (carts === undefined) {
-            res.status(404).json({message: "No existe el carrito al que se intenta ingresar el producto"});
+            res.status(404).json({ message: "No existe el carrito al que se intenta ingresar el producto" });
             throw new Error("No existe el carrito al que se intenta ingresar el producto");
         }
         await cartManager.saveCarts(carts);
-        res.status(201).json({message: "Producto agregado al carrito correctamente", carts: carts});
+        res.status(201).json({ message: "Producto agregado al carrito correctamente", carts: carts });
     } catch (error) {
         console.error("Error desde router al agregar producto al carrito: ", error);
-        res.status(500).json({message: "No se pudo agregar el producto al carrito"});
+        res.status(500).json({ message: "No se pudo agregar el producto al carrito" });
     }
 });
 

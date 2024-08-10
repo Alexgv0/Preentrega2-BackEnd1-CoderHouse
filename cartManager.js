@@ -1,19 +1,24 @@
 const fs = require("fs").promises;
+const constants = require("./src/utils/constants")
 
-const cartManager = {
-    cartsFilePath: "./files/carts.txt",
+const cartsFilePath = constants.cartsFilePath;
+
+class CartManager {
+    constructor() {
+
+    }
 
     // Lee la informacion de carts.txt y lo parsea de JSON a Objeto
     async readCartsData() {
         try {
-            const data = await fs.readFile(this.cartsFilePath, "utf8");
+            const data = await fs.readFile(cartsFilePath, "utf8");
             const parsedData = JSON.parse(data);
             return parsedData;
         } catch (error) {
             console.error("Error al leer datos de carrito: ", error);
             return [];
         }
-    },
+    };
 
     /* Busca por id dentro de los carritos de carts.txt 
     y devuelve los productos del carrito con el id pasado por parametro */
@@ -26,7 +31,7 @@ const cartManager = {
         } catch (error) {
             console.error("Error al buscar productos por id de carrito: ", error);
         }
-    },
+    };
 
     // Devuelve el ultimo id de la lista de carritos en carts.txt
     async lastCartID() {
@@ -41,7 +46,7 @@ const cartManager = {
         } catch (error) {
             console.error("Error al buscar el ultimo id: ", error);
         }
-    },
+    };
 
     // Crea un carrito nuevo con los parametros dados y lo devuelve
     async createCart(body) {
@@ -56,7 +61,7 @@ const cartManager = {
         } catch (error) {
             console.error("Error al crear carrito: ", error);
         } 
-    },
+    };
 
     // Devuelve los carritos de carts.txt con el carrito (cart) pasado por parametro agregado
     async addCart(cart) {
@@ -67,16 +72,16 @@ const cartManager = {
         } catch (error) {
             return console.error("Error agregando cart a carts: ", error)
         }
-    },
+    };
 
     // Guarda los cambios de carts (pasado por parametro) en carts.txt
     async saveCarts(carts) {
         try {
-            await fs.writeFile(this.cartsFilePath, JSON.stringify(carts, null, 2), 'utf8');
+            await fs.writeFile(cartsFilePath, JSON.stringify(carts, null, 2), 'utf8');
         } catch (error) {
             console.error("Error desde productManager al guardar los productos: ", error);
         }
-    },
+    };
 
     //
     async addProductCarts(cid, pid) {
@@ -108,6 +113,7 @@ const cartManager = {
             return console.error("Error desde cartManager al agregar productos en el carrito: ", error);
         }
     }
-};
 
-module.exports = cartManager;
+}
+
+module.exports = CartManager;
