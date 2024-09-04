@@ -1,3 +1,4 @@
+// TODO:
 const dataPath = "./data"
 
 const productsFilePath = dataPath + "/products.json";

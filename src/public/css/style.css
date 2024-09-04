@@ -18,6 +18,25 @@ label {
     font-weight: bold;
 }
 
+.container {
+    display: flexbox;
+    margin: 5% 25% 5% 25%;
+}
+
+.container2 {
+    display: flexbox;
+    margin: 5% 15% 5% 15%;
+}
+
+.product {
+    text-align: left;
+    margin: 1% 1% 1% 1%;
+}
+
+.productTitle {
+    display: inline;
+}
+
 input,
 textarea,
 select {

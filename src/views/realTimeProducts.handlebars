@@ -9,16 +9,16 @@
         <title>Productos en Tiempo Real</title>
     </head>
     <body>
-        <div>
+        <div class="container" id="products">
             {{#each products}}
-                <li>
-                    <p>{{this.title}}</p>
+                <li class="product">
+                    <p class="productTitle">{{this.title}}</p> <button class="deletePB" id="deleteP{{this.id}}">Eliminar</button>
                 </li>
             {{/each}}
         </div>
-        <div>
-            <h1>Formulario de Producto</h1>
-            <form action="/submit-product" method="post">
+        <div class="container2">
+            <h1>Agregar Producto</h1>
+            <form>
                 <label for="title">Título:</label>
                 <input type="text" id="title" name="title" required />
 
@@ -43,7 +43,7 @@
                 <label for="category">Categoría:</label>
                 <input type="text" id="category" name="category" required />
 
-                <button type="submit">Enviar</button>
+                <button id="submit" >Enviar</button>
             </form>
         </div>
     </body>
